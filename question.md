@@ -56,3 +56,7 @@ ctrl+f5
 2. 如果有CDN content distribution network
 
 # etag
+
+#编码
+在node中指定编码要写成 utf8
+在网页中指定编码要写入 utf-8
