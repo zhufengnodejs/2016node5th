@@ -50,3 +50,9 @@ atime access time 最后访问时间
 如果缓存未过期，直接使用，如果已过期，则询问服务器此缓存是否可用
 ctrl+f5 
 会忽略所有缓存
+
+# 为什么需要用etag
+1. 不够精确 只能精确到秒，如果一秒变好几次，那么会出现误差
+2. 如果有CDN content distribution network
+
+# etag
