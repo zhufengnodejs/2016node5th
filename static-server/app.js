@@ -1,6 +1,7 @@
 var http = require('http');
 var url = require('url');
 var fs = require('fs');
+var mime = require('mime');
 //创建服务器
 /**
  * request 请求行 请求头 请求体
@@ -14,6 +15,7 @@ http.createServer(function(request,response){
     fs.exists(filename,function(exists){
         if(exists){
             response.statusCode = 200;//成功
+            response.setHeader('Content-Type',mime.lookup(filename));
             fs.createReadStream(filename).pipe(response);
         }else{
             response.statusCode = 404;
