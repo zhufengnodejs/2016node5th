@@ -16,6 +16,8 @@ http.createServer(function(request,response){
         if(exists){
             response.statusCode = 200;//成功
             response.setHeader('Content-Type',mime.lookup(filename));
+            //告诉浏览器要缓存此文件
+            response.setHeader('Cache-Control','Max-Age=20');
             fs.createReadStream(filename).pipe(response);
         }else{
             response.statusCode = 404;
