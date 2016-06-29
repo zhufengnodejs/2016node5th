@@ -1,3 +1,4 @@
+list();
 //读取后台接口得到所有的用户列表并加到表格当中
 function list() {
     $.get('/users').success(function (result) {
@@ -16,4 +17,9 @@ function list() {
         $('#userList').html(html);
     });
 }
-list();
+
+function add(){
+    $('#userModal').modal('show');//显示模态窗口
+}
+
+
