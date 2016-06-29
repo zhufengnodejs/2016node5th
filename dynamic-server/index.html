@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
 </head>
 <body class="container" style="margin-top: 50px">
+<div class="alert alert-warning text-center" role="alert" id="alert"></div>
 <div class="panel panel-default">
     <div class="panel-heading">
         <button class="btn btn-primary" onclick="add()">增加</button>
@@ -44,7 +45,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary">保存</button>
+                <button type="button" onclick="save()" class="btn btn-primary">保存</button>
             </div>
         </div><!-- /.modal-content -->
         </form>

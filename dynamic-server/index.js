@@ -22,4 +22,26 @@ function add(){
     $('#userModal').modal('show');//显示模态窗口
 }
 
+function save(){
+    var name = $('#name').val(); //取得用户名
+    var user = {name:name};      //组装要传到后台的对象
+    $.post('/users',user).success(function(result){
+        var code = result.code;
+        if(code == 'ok'){
+            var user = result.data;
+            $('#userList').append(`<tr><td>${user.id}</td>
+                         <td>${user.name}</td>
+                         <td>
+                         <button class="btn btn-danger">删除</button>
+                         </td>
+                      </tr>`);
+            $('#name').val('');
+            $('#alert').html('操作成功');
+            $('#userModal').modal('hide');//隐藏
+        }else{
+            $('#alert').html('操作失败');
+        }
+
+    });
+}
 
