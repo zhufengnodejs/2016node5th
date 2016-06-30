@@ -25,25 +25,48 @@ function list() {
 }
 
 function add(){
+    $('#userId').val('');
+    $('#name').val('');
     $('#userModal').modal('show');//显示模态窗口
 }
 
 function save(){
+    var id = $('#userId').val(); //得到ID
     var name = $('#name').val(); //取得用户名
     var user = {name:name};      //组装要传到后台的对象
-    $.post('/users',user).success(function(result){
-        var code = result.code;
-        if(code == 'ok'){
+    if(id){//表示修改
+        user.id = id;
+        $.ajax({
+            url:'/users',
+            method:'PUT',
+            data:user
+        }).success(function(result){//如果更新服务器端应该返回更新后的user对象
             var user = result.data;
-            $('#userList').append(getUserRow(user));
-            $('#name').val('');
+            //把原来tr替换成新的tr
+            $(`#tr_${id}`).after(getUserRow(user));
+            $(`#tr_${id}`).remove();
             $('#alert').html('操作成功');
-            $('#userModal').modal('hide');//隐藏
-        }else{
+            $('#userModal').modal('hide');
+        }).error(function(err){
+            console.error(err);
             $('#alert').html('操作失败');
-        }
+        });
 
-    });
+    }else{//新增
+        $.post('/users',user).success(function(result){
+            var code = result.code;
+            if(code == 'ok'){
+                var user = result.data;
+                $('#userList').append(getUserRow(user));
+                $('#name').val('');
+                $('#alert').html('操作成功');
+                $('#userModal').modal('hide');//隐藏
+            }else{
+                $('#alert').html('操作失败');
+            }
+        });
+    }
+
 }
 //删除用户
 function del(id){
