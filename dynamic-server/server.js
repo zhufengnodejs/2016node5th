@@ -34,7 +34,6 @@ http.createServer(function (request, response) {
                     result += data;
                 });
                 request.on('end',function(){
-                    console.log(result);//是一个序列化的表单格式 key1=value1&key2=value2
                     var user = querystring.parse(result);//把字符串转成对象          //读取文件的内容
                     fs.readFile(DB_NAME,'utf8',function(err,data){
                         var users = JSON.parse(data);//转成JSON对象

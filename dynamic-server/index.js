@@ -47,10 +47,8 @@ function save(){
 //删除用户
 function del(id){
     $.ajax({
-        url:`/users`,
-        method:'DELETE',
-        data:{id:id},
-        processData:true, //处理数据,会将data对象转成查询字符串放在url的后面
+        url:`/users?id=${id}`,
+        method:'DELETE'
     }).success(function(result){
         var user = result.user;
         var code = result.code;
