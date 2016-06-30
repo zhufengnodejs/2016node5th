@@ -56,6 +56,26 @@
             </tbody>
         </table>
     </div>
+    <div class="panel-footer">
+        当前页:<input onkeyup="init()" class="form-control" type="text" id="pageNum" name="pageNum">
+        每页的条:<select onchange="init()" class="form-control" name="pageSize" id="pageSize">
+            <option value="2">2</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+        </select>
+
+        <nav>
+            <ul class="pagination" id="pager">
+                <li><span aria-hidden="true">&laquo;</span></li>
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li><span aria-hidden="true">&raquo;</span></li>
+            </ul>
+        </nav>
+    </div>
 </div>
 
 <div class="modal fade" id="userModal">

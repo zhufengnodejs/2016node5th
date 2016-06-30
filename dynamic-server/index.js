@@ -1,4 +1,4 @@
-list();
+init();
 
 var getUserRow = function(user){
     return `<tr id="tr_${user.id}"><td>${user.id}</td>
@@ -10,20 +10,48 @@ var getUserRow = function(user){
                       </tr>`;
 }
 
+function goto(pageNum){
+    $('#pageNum').val(pageNum);
+    init();
+}
+
 //读取后台接口得到所有的用户列表并加到表格当中
-function list() {
+function init() {
     var keyword = $('#keyword').val();// 取得过滤条件
     var orderBy = $('#orderBy').val();//排序的字段
     var order = $('#order').val();//升序还是降序
-    $.get(`/users?keyword=${keyword}&orderBy=${orderBy}&order=${order}`).success(function (result) {
+    var pageNum = $('#pageNum').val()||1;//获得当前的页码
+    var pageSize = $('#pageSize').val()||2;//每页的条数
+    $.get(`/users?keyword=${keyword}&orderBy=${orderBy}&order=${order}&pageNum=${pageNum}&pageSize=${pageSize}`).success(function (result) {
         //先得到用户数组
-        var users = result.data;
+        var data = result.data;
+        var users = data.users;
         //对数组中的元素进行迭代
         var html = '';
         $.each(users, function (index, item) {
             html += getUserRow(item);
         });
         $('#userList').html(html);
+
+        //拼出来分页组件
+        // 服务器端返回的 一共多少页 当前页
+        // 传递给服务器的 当前页 每页条数
+        var pageNum = data.pageNum;//当前的页数
+        $('#pageNum').val(pageNum);
+        var totalPage = data.totalPage;//总页数
+        var pages = '';//拼接分页的li字符串
+        if(pageNum>1){
+            pages += `<li><a onclick="goto(${pageNum -1})" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>`;
+        }
+        for(var i=1;i<=totalPage;i++){ //循环每个页码
+            pages+=` <li class="${i == pageNum ?'active':''}"><a onclick="goto(${i})" href="#">${i}</a></li>`;//每个页码对应一个li
+        }
+        if(pageNum<totalPage){
+            pages+=`<li><a onclick="goto(${pageNum + 1})" href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span></a></li>
+`;
+        }
+        $('#pager').html(pages); //把分页的dom设置到容器中
     });
 }
 
