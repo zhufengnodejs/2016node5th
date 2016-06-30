@@ -13,7 +13,7 @@ var deleteAll = function (path) {
         });
 
         if (files.length == 0) {
-            fs.rmdirSync(path + '/' + files);
+            fs.rmdirSync(path);
         }
     });
 }

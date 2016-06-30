@@ -49,15 +49,32 @@ http.createServer(function (request, response) {
                                 data:user
                             }));
                         })
-
-
                     })
-
                 });
                 break;
-
+            case 'DELETE':
+                var id = query.id;
+                fs.readFile(DB_NAME,'utf8',function(err,data){
+                    var users = JSON.parse(data);
+                    users = users.filter(function(user){
+                        return user.id != id;
+                    });
+                    fs.writeFile(DB_NAME,JSON.stringify(users),function(err){
+                        if(err){
+                            response.end(JSON.stringify({
+                                code:'error',
+                                data:err
+                            }));
+                        }else{
+                            response.end(JSON.stringify({
+                                code:'success',
+                                data:{}
+                            }));
+                        }
+                    })
+                })
+                break;
         }
-
     } else {
         var filename = '.' + pathname;
         fs.exists(filename, function (exists) {
@@ -70,6 +87,4 @@ http.createServer(function (request, response) {
             }
         })
     }
-
-
 }).listen(9090);
