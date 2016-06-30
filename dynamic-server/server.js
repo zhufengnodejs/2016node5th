@@ -15,17 +15,37 @@ http.createServer(function (request, response) {
     if (pathname == '/users') {
         switch (method) {
             case 'GET':
-                fs.readFile(DB_NAME, 'utf8', function (err, data) {
-                    if (err) {
-                        response.statusCode = 500;
-                        response.end(JSON.stringify({code: 'error', data: err}));
-                    } else {
-                        response.writeHead(200, {
-                            'Content-Type': 'application/json;charset=utf-8'
-                        });
-                        response.end(JSON.stringify({code: 'ok', data: JSON.parse(data)}));
-                    }
-                })
+                var id = query.id;
+                if(id){
+                    fs.readFile(DB_NAME, 'utf8', function (err, data) {
+                        if (err) {
+                            response.statusCode = 500;
+                            response.end(JSON.stringify({code: 'error', data: err}));
+                        } else {
+                            response.writeHead(200, {
+                                'Content-Type': 'application/json;charset=utf-8'
+                            });
+                            var users = JSON.parse(data);
+                            var user = users.filter(function(user){
+                                return user.id == id;
+                            })[0]||{};
+                            response.end(JSON.stringify({code: 'ok', data: user}));
+                        }
+                    })
+                }else{
+                    fs.readFile(DB_NAME, 'utf8', function (err, data) {
+                        if (err) {
+                            response.statusCode = 500;
+                            response.end(JSON.stringify({code: 'error', data: err}));
+                        } else {
+                            response.writeHead(200, {
+                                'Content-Type': 'application/json;charset=utf-8'
+                            });
+                            response.end(JSON.stringify({code: 'ok', data: JSON.parse(data)}));
+                        }
+                    })
+                }
+
                 break;
             case 'POST':
                 // request是一个可读流，可以通过监听data和end事件获取其中的数据
@@ -60,6 +80,7 @@ http.createServer(function (request, response) {
                     });
                     fs.writeFile(DB_NAME,JSON.stringify(users),function(err){
                         if(err){
+                            response.statusCode = 500;
                             response.end(JSON.stringify({
                                 code:'error',
                                 data:err

@@ -5,6 +5,7 @@ var getUserRow = function(user){
                          <td>${user.name}</td>
                          <td>
                          <button onclick="del(${user.id})" class="btn btn-danger">删除</button>
+                         <button onclick="update(${user.id})" class="btn btn-warning">修改</button>
                          </td>
                       </tr>`;
 }
@@ -50,12 +51,18 @@ function del(id){
         url:`/users?id=${id}`,
         method:'DELETE'
     }).success(function(result){
-        var user = result.user;
-        var code = result.code;
-        if(code == 'error'){
-            $('#alert').html('操作失败');
-        }else{
-            $(`#tr_${id}`).remove();
-        }
-    })
+        $(`#tr_${id}`).remove();
+        $('#alert').html('操作成功');
+    }).error(function(result){
+        $('#alert').html('操作失败');
+    });
+}
+
+function update(id){
+  $.get(`/users?id=${id}`).success(function(result){
+        var user = result.data;
+        $('#name').val(user.name);
+        $('#userId').val(user.id);
+        $('#userModal').modal('show');//显示
+  });
 }
