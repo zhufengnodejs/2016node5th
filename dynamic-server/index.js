@@ -12,7 +12,9 @@ var getUserRow = function(user){
 
 //读取后台接口得到所有的用户列表并加到表格当中
 function list() {
-    $.get('/users').success(function (result) {
+    var keyword = $('#keyword').val();// 取得过滤条件
+
+    $.get(`/users?keyword=${keyword}`).success(function (result) {
         //先得到用户数组
         var users = result.data;
         //对数组中的元素进行迭代
@@ -43,8 +45,7 @@ function save(){
         }).success(function(result){//如果更新服务器端应该返回更新后的user对象
             var user = result.data;
             //把原来tr替换成新的tr
-            $(`#tr_${id}`).after(getUserRow(user));
-            $(`#tr_${id}`).remove();
+            $(`#tr_${id}`).replaceWith(getUserRow(user));
             $('#alert').html('操作成功');
             $('#userModal').modal('hide');
         }).error(function(err){

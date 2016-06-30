@@ -33,6 +33,7 @@ http.createServer(function (request, response) {
                         }
                     })
                 }else{
+
                     fs.readFile(DB_NAME, 'utf8', function (err, data) {
                         if (err) {
                             response.statusCode = 500;
@@ -41,7 +42,16 @@ http.createServer(function (request, response) {
                             response.writeHead(200, {
                                 'Content-Type': 'application/json;charset=utf-8'
                             });
-                            response.end(JSON.stringify({code: 'ok', data: JSON.parse(data)}));
+                            var users = JSON.parse(data);
+                            var reg = new RegExp(query.keyword);
+                            users = users.filter(function(user){
+                                if(query.keyword){
+                                    return reg.test(user.name)
+                                }else{
+                                    return true;
+                                }
+                            });
+                            response.end(JSON.stringify({code: 'ok', data:users}));
                         }
                     })
                 }
