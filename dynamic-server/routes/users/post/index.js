@@ -1,4 +1,5 @@
 var fs = require('fs');
+var querystring = require('querystring');
 module.exports = function(query,request,response){
     // request是一个可读流，可以通过监听data和end事件获取其中的数据
     var result = '';

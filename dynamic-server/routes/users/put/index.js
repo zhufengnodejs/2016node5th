@@ -1,4 +1,5 @@
 var fs = require('fs');
+var querystring = require('querystring');
 module.exports = function(query,request,response){
     var user = '';
     request.on('data',function(data){
