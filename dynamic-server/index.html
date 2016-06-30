@@ -29,6 +29,22 @@
         </div>
     </div>
     <div class="form-group">
+        <label class="col-xs-2" for="keyword">当前页</label>
+        <div class="col-xs-10">
+            <input onkeyup="init()" class="form-control" type="text" id="pageNum" name="pageNum">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-2" for="keyword">每页条数</label>
+        <div class="col-xs-10">
+            <select onchange="init()" class="form-control" name="pageSize" id="pageSize">
+                <option value="2">2</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
         <div class="col-xs-offset-2">
             <button class="btn btn-primary" onclick="list()">搜索</button>
         </div>
@@ -57,23 +73,8 @@
         </table>
     </div>
     <div class="panel-footer">
-        当前页:<input onkeyup="init()" class="form-control" type="text" id="pageNum" name="pageNum">
-        每页的条:<select onchange="init()" class="form-control" name="pageSize" id="pageSize">
-            <option value="2">2</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-        </select>
-
         <nav>
-            <ul class="pagination" id="pager">
-                <li><span aria-hidden="true">&laquo;</span></li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li><span aria-hidden="true">&raquo;</span></li>
-            </ul>
+            <ul class="pagination" id="pager"></ul>
         </nav>
     </div>
 </div>
