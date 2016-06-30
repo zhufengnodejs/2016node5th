@@ -45,7 +45,8 @@ module.exports = function(query,request,response){
                     }else{
                         return true;
                     }
-                }).sort(function(a,b){
+                });
+                var finalUsers = filtedUsers.sort(function(a,b){
                     if(typeof a[orderBy] == 'string'){
                         return (a[orderBy].localeCompare(b[orderBy]))*order;
                     }else{
@@ -53,7 +54,7 @@ module.exports = function(query,request,response){
                     }
 
                 }).slice((pageNum-1) * pageSize,pageNum * pageSize);
-                response.end(JSON.stringify({code: 'ok', data:{users:filtedUsers,totalPage:Math.ceil(users.length/pageSize),pageNum:pageNum}}));
+                response.end(JSON.stringify({code: 'ok', data:{users:finalUsers,totalPage:Math.ceil(filtedUsers.length/pageSize),pageNum:pageNum}}));
             }
         })
     }
