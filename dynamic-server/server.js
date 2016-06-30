@@ -42,15 +42,30 @@ http.createServer(function (request, response) {
                             response.writeHead(200, {
                                 'Content-Type': 'application/json;charset=utf-8'
                             });
-                            var users = JSON.parse(data);
+                            try{
+                                var users = JSON.parse(data);
+                            }catch(e){
+                                var users = [];
+                            }
                             var reg = new RegExp(query.keyword);
+                            var orderBy = query.orderBy||'id';
+                            var order = query.order||'asc';
+                            order = order == 'desc'?-1:1;
                             users = users.filter(function(user){
                                 if(query.keyword){
                                     return reg.test(user.name)
                                 }else{
                                     return true;
                                 }
+                            }).sort(function(a,b){
+                                if(typeof a[orderBy] == 'string'){
+                                    return (a[orderBy].localeCompare(b[orderBy]))*order;
+                                }else{
+                                    return (a[orderBy] - b[orderBy])*order;
+                                }
+
                             });
+                            console.log(users);
                             response.end(JSON.stringify({code: 'ok', data:users}));
                         }
                     })
@@ -66,8 +81,17 @@ http.createServer(function (request, response) {
                 request.on('end',function(){
                     var user = querystring.parse(result);//把字符串转成对象          //读取文件的内容
                     fs.readFile(DB_NAME,'utf8',function(err,data){
-                        var users = JSON.parse(data);//转成JSON对象
-                        user.id = users[users.length-1].id+1;
+                        try{
+                            var users = JSON.parse(data);//转成JSON对象
+                            if(users.length>0){
+                                user.id = Number(users[users.length-1].id)+1;
+                            }else{
+                                user.id = 1;
+                            }
+                        }catch(e){
+                            users = [];
+                            user.id = 1;
+                        }
                         users.push(user);
                         fs.writeFile(DB_NAME,JSON.stringify(users),function(err,result){
                             response.writeHead(200, {

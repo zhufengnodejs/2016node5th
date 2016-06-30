@@ -13,8 +13,9 @@ var getUserRow = function(user){
 //读取后台接口得到所有的用户列表并加到表格当中
 function list() {
     var keyword = $('#keyword').val();// 取得过滤条件
-
-    $.get(`/users?keyword=${keyword}`).success(function (result) {
+    var orderBy = $('#orderBy').val();//排序的字段
+    var order = $('#order').val();//升序还是降序
+    $.get(`/users?keyword=${keyword}&orderBy=${orderBy}&order=${order}`).success(function (result) {
         //先得到用户数组
         var users = result.data;
         //对数组中的元素进行迭代
