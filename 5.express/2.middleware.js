@@ -2,6 +2,11 @@ var express = require('express');
 var app = express();
 var fs = require('fs');
 /**
+ * 1. 选择执行中间件
+ * 2. 监听 end
+ * 3. 作用域
+ */
+/**
  * 1. 会在真正的路由函数之前执行 use
  * 2. 请求和响应会向后传递
  */
@@ -48,18 +53,21 @@ app.get('/marry',function(req,res){
 app.get('/child',function(req,res){
     res.end('宝宝');
 });
+function sendfile(filename){
+    fs.createReadStream(filename).pipe(res);
+};
 //1.请求和响应对象在中间件和路由中只有一份
 app.use(function(req,res,next){
-    res.sendfile = function(filename){
+   /* res.sendfile = function(filename){
         fs.createReadStream(filename).pipe(res);
-    }
+    }*/
     next();
 });
 app.get('/index.html',function(req,res){
-    res.sendfile('./index.html');
+    sendfile('./index.html');
 });
 app.get('/index.js',function(req,res){
-    res.sendfile('./index.js');
+    sendfile('./index.js');
 });
 
 //启动一个http服务器，监听8080端口
