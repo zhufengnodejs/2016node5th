@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    用户名 <input type="text" id="username"/><br/>
+    头像: <input type="file" id="avatar"/><br/>
+    <button onclick="upload()">上传</button>
+    <img id="avatarImg"/>
+
+</body>
+<script>
+    function upload(){
+        //html5中的表单对象
+        var formData = new FormData();
+        var avatar = document.querySelector('#avatar').files[0];
+        if(avatar){
+            console.log(avatar);
+            if(avatar.type == 'image/png'){
+                formData.append('username',document.querySelector('#username').value);
+                formData.append('avatar',avatar);
+                var xhr = new XMLHttpRequest;
+                xhr.open('POST','/upload',true);
+                xhr.onreadystatechange = function(){
+                    if(xhr.readyState == 4 && xhr.status == 200)
+                      document.querySelector('#avatarImg').src =xhr.responseText;
+                }
+                xhr.send(formData);//请求体
+            }else{
+                alert('文件类型不正确');
+            }
+        }else{
+            alert('你还没有选中任何的文件!');
+        }
+
+    }
+</script>
+
+</html>
