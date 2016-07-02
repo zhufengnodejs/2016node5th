@@ -26,7 +26,8 @@ app.get('/string',function(req,res){
     res.send('string');
 });
 app.get('/number',function(req,res){
-    res.send(500);
+    //res.send(500);
+    res.sendStatus(500);
 });
 app.get('/obj',function(req,res){
     res.send({name:'zfpx'});
