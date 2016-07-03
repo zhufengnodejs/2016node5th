@@ -19,7 +19,7 @@ app.get('/hair',function(req,res){
        var sessionObj=JSON.parse(fs.readFileSync('./session.json','utf8'));
        var balance = sessionObj[sessionId];
        if(balance){
-           sessionObj[sessionId] -= 10;//把余额减少10块
+           //sessionObj[sessionId] -= 10;//把余额减少10块
            fs.writeFileSync('./session.json',JSON.stringify(sessionObj));
            res.send('欢迎再次光临，你还剩'+sessionObj[sessionId]+'元');
        }else{
