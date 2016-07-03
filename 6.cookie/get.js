@@ -1,7 +1,8 @@
 var document ={};
 
 Object.defineProperty(document,'cookies',{
-    value:[]
+    value:[],
+    writable:true
 })
 console.log(document.cookies);
 
