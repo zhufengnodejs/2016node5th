@@ -6,4 +6,4 @@ gulp.task('jshint',function(){
     .pipe($.jshint.reporter())
 });
 // gulp项目实战
-// babel + es6 +promise + react基础
+// babel + es6 +promise + webpack+ react基础
