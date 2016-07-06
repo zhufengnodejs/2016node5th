@@ -1,0 +1,15 @@
+.mixin(red) {
+  color: red;
+}
+
+.mixin(green) {
+  color: green;
+}
+
+.mixin(@_) {
+  display: block;
+}
+@color:green;
+.div1{
+  .mixin(@color)
+}

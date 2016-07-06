@@ -1,0 +1,9 @@
+.mixin(@radius) when(@radius>5px) {
+  border:1px solid blue;
+  color: red;
+  border-radius: @radius/2;
+}
+
+.div1{
+  .mixin(10px)
+}
