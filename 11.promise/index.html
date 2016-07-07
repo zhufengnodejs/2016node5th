@@ -5,9 +5,9 @@
     <title>Title</title>
     <style>
         .ball{
-            width:100px;
-            height:100px;
-            border-radius: 50px;
+            width:60px;
+            height:60px;
+            border-radius: 30px;
         }
         .ball1{
             background-color: red;
@@ -30,18 +30,22 @@
     function move(element,target,cb){
         setTimeout(function(){
             var marginLeft = parseInt(element.style.marginLeft,10);
-            console.log(marginLeft);
             if(marginLeft<target){
                 marginLeft++;
                 element.style.marginLeft=marginLeft+'px';
-                console.log(marginLeft);
                 move(element,target,cb);
             }else{
-                cb();
+                cb&&cb();
             }
         },13);
     }
     var ball1 = document.querySelector('#ball1');
-    move(ball1,100,function(){});
+    var ball2 = document.querySelector('#ball2');
+    var ball3 = document.querySelector('#ball3');
+    move(ball1,100,function(){
+        move(ball2,100,function(){
+            move(ball3,100);
+        })
+    });
 </script>
 </html>
