@@ -12,7 +12,6 @@
         return new Promise(function(resolve,reject){
             var xhr = new XMLHttpRequest;
             xhr.open(method,url,true);
-            xhr.responseType = 'json';
             xhr.onreadystatechange = function(){
                 if(xhr.readyState == 4){
                     if(xhr.status == 200){
@@ -26,9 +25,16 @@
         });
     }
 
-    ajax({url:'users.json'}).then(function(data){
-        document.querySelector('#div1').innerHTML = data.name;
-    })
+    ajax({url:'1.txt'})
+    .then(function(data){
+       console.log(data);
+       return ajax({url:data});
+    }).then(function(data){
+        console.log(data);
+        return ajax({url:data});
+    }).then(function(data){
+        console.log(data);
+    });
 
 </script>
 </html>

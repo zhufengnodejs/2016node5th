@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .ball{
+            width:60px;
+            height:60px;
+            border-radius: 30px;
+        }
+        .ball1{
+            background-color: red;
+        }
+        .ball2{
+            background-color: green;
+        }
+        .ball3{
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+<div id="ball1" class="ball ball1" style="margin-left: 0"></div>
+<div id="ball2" class="ball ball2" style="margin-left: 0"></div>
+<div id="ball3" class="ball ball3" style="margin-left: 0"></div>
+</body>
+<script>
+    // ele 移动的DOM对象 target marginLeft目标位置 移动完成之后的回调
+    function move(element,target,cb){
+        setTimeout(function(){
+            var marginLeft = parseInt(element.style.marginLeft,10);
+            if(marginLeft<target){
+                marginLeft++;
+                element.style.marginLeft=marginLeft+'px';
+                move(element,target,cb);
+            }else{
+                cb&&cb();
+            }
+        },13);
+    }
+    var ball1 = document.querySelector('#ball1');
+    var ball2 = document.querySelector('#ball2');
+    var ball3 = document.querySelector('#ball3');
+    move(ball1,100,function(){
+        move(ball2,100,function(){
+            move(ball3,100);
+        })
+    });
+</script>
+</html>
