@@ -1,0 +1,18 @@
+.div1 {
+  color: red;
+  border: 2px solid red;
+  border-radius: 1px;
+  width: 200px;
+}
+.div2 {
+  color: green;
+  border: 2px solid red;
+  border-radius: 5px;
+  width: 200px;
+}
+.div3 {
+  color: blue;
+  border: 2px solid red;
+  border-radius: 30px;
+  width: 200px;
+}

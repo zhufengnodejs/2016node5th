@@ -1,0 +1,6 @@
+.div1 p {
+  color: red;
+}
+.div1 .logo:hover {
+  text-decoration: none;
+}
