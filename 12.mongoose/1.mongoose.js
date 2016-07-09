@@ -10,14 +10,22 @@ var PersonSchema = new mongoose.Schema({
     birth: {type: Date}
 });
 
+
 //创建模型 可以操作数据库
 //model 有两个参数 第一个参数是模型的名称(也就是保存到数据库中的集合的名称)
 //PersonSchema
 //两个参数表示定义一个模型
-// Person是模型的名称，也对应于集合的集合。集合的名称=模型名称转成复数
+// Person是模型的名称，也对应于集合的集合。
+// 集合的名称=模型名称转成复数
+// this 指的就是当前的实例
+PersonSchema.methods.findSameAge = function(cb){
+    return this.model('Person').find({age:this.age},cb);
+}
 var PersonModel = mongoose.model('Person', PersonSchema);
 //传一个参数表示获取一个模型
 var PersonModel2 = mongoose.model('Person');
+//为实例创建新的方法
+
 console.log(PersonModel === PersonModel2);
 //根据model可以创建一个实体
 var personEntity = new PersonModel({
@@ -25,13 +33,22 @@ var personEntity = new PersonModel({
     age: 8,
     birth: new Date(Date.now() - 8 * 365 * 24 * 60 * 60*1000)
 });
+//调用我们为实例上定义的新方法
+personEntity.findSameAge(function(err,docs){
+    if(err){
+        console.error(err);
+    }else
+        console.log(docs.length);
+})
 //把当前的对象保存到数据中
-personEntity.save(function (err, result) {
+/*personEntity.save(function (err, result) {
     if (err) {
         console.error(err);
     } else {
         console.log(result);
+
+
     }
-});
+});*/
 
 
