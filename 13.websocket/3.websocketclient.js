@@ -10,4 +10,8 @@ socket.on('open',function(){
 socket.on('message',function(data){
     console.log(data);
 });
+//监听服务器端的断开连接事件
+socket.on('close', function close() {
+    console.log('disconnected');
+});
 

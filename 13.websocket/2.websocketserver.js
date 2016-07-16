@@ -12,4 +12,8 @@ server.on('connection',function(ws){
       //服务器向客户端发送消息
       ws.send('不好');
   });
+  //监听 客户端断开的连接事件
+  ws.on('close',function(){
+      console.log('客户端已经断开');
+  });
 });
