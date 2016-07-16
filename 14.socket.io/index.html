@@ -3,9 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
 </head>
-<body>
-
+<body class="container" style="margin-top: 30px">
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        欢迎光临珠峰聊天室
+    </div>
+    <div class="panel-body">
+        <ul class="list-group"></ul>
+    </div>
+    <div class="panel-footer">
+        <input type="text" class="form-control" id="inputMsg">
+        <button class="btn btn-primary" onclick="talk()">发言</button>
+    </div>
+</div>
 </body>
 <script src="/socket.io/socket.io.js"></script>
 <script>
@@ -14,7 +26,8 @@
         var socket = io.connect('/');
         socket.on('connect',function(){
             console.log('成功连接');
-            socket.send('服务器');
+            //socket.send('服务器');
+            socket.emit('message','服务器');
         });
         socket.on('disconnect',function(){
             console.log('断开连接');
