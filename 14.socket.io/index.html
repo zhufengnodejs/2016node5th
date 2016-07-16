@@ -11,10 +11,10 @@
         欢迎光临珠峰聊天室
     </div>
     <div class="panel-body">
-        <ul class="list-group"></ul>
+        <ul class="list-group" id="messages"></ul>
     </div>
     <div class="panel-footer">
-        <input type="text" class="form-control" id="inputMsg">
+        <input onkeydown="enter(event)" type="text" class="form-control" id="inputMsg">
         <button class="btn btn-primary" onclick="talk()">发言</button>
     </div>
 </div>
@@ -33,8 +33,25 @@
             console.log('断开连接');
         });
         socket.on('message',function(msg){
-            console.log(msg);
+            var li = document.createElement('li');
+            li.className = 'list-group-item';
+            li.innerHTML = msg;
+            document.querySelector('#messages').appendChild(li);
         });
+
+        window.enter = function(event){
+            var key = event.which || event.keyCode;
+            if(key == 13){
+                window.talk();
+            }
+        }
+        //发言
+        window.talk = function(){
+            var msg = document.querySelector('#inputMsg').value;
+            //向服务器发送类型为message的消息
+            socket.emit('message',msg);
+            document.querySelector('#inputMsg').value = '';
+        }
     }
 
 </script>

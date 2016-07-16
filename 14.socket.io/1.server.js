@@ -18,9 +18,8 @@ var io = require('socket.io')(server);
 io.on('connection',function(socket){
     console.log('客户端已经连接');
     socket.on('message',function(msg){
-        console.log(msg);
-        //socket.send('客户端');//['message','客户端']
-        socket.emit('message','客户端');
+        //把此消息通知给所有的人
+       io.emit('message',msg);
     });
 });
 
