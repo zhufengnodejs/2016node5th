@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="clock"></div>
+</body>
+<script>
+    function send(){
+        var xhr = new XMLHttpRequest();
+        xhr.open('get','/clock',true);
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4 && xhr.status == 200){
+                document.querySelector('#clock').innerHTML = xhr.responseText;
+                send();
+            }
+        }
+        xhr.send();
+    }
+    send();
+</script>
+</html>

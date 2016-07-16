@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    //创建socket对象
+    var socket = new WebSocket('ws://localhost:9090');
+    //注册连接打开时的回调函数
+    socket.onopen = function(){
+        console.log('客户端已经连接');
+        //向服务器发送消息
+        socket.send('你好服务器');
+    }
+    //注册当接收到服务器消息时的回调函数
+    //参数是一个事件对象，它的 data属性才是真正的消息内容
+    socket.onmessage = function(event){
+        console.log(event.data);
+    }
+
+</script>
+</html>
