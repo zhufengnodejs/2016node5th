@@ -17,9 +17,27 @@ var io = require('socket.io')(server);
 //监听客户端发出的websocket请求
 io.on('connection',function(socket){
     console.log('客户端已经连接');
+    var currentRoom;//存放当前用户目前在哪个房间内
     socket.on('message',function(msg){
         //把此消息通知给所有的人
-       io.emit('message',msg);
+       if(currentRoom){//如果此用户已经进入到了某个房间
+           //只向房间内的人说话，也只有此房间内的人能听到
+           io.in(currentRoom).emit('message',msg);
+       }else{
+           //给所有的人说话，所有人都能听到
+           io.emit('message',msg);
+       }
+
+    });
+    //监听客户端加入某个房间的事件
+    socket.on('join',function(room){
+        socket.join(room);
+        currentRoom = room;
+    });
+    //监听客户端将要离开房间的事件
+    socket.on('leave',function(room){
+        socket.leave(room);
+        currentRoom = null;
     });
 });
 

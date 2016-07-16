@@ -8,7 +8,11 @@
 <body class="container" style="margin-top: 30px">
 <div class="panel panel-primary">
     <div class="panel-heading">
-        欢迎光临珠峰聊天室
+        <button class="btn btn-success" onclick="join('chat')">进入chat房间</button>
+        <button class="btn btn-danger" onclick="join('study')">进入study房间</button>
+        <button class="btn btn-success" onclick="leave('chat')">离开chat房间</button>
+        <button class="btn btn-danger" onclick="leave('study')">离开study房间</button>
+        <span>当前房间:<span id="currentRoom">大厅</span></span>
     </div>
     <div class="panel-body">
         <ul class="list-group" id="messages"></ul>
@@ -27,7 +31,7 @@
         socket.on('connect',function(){
             console.log('成功连接');
             //socket.send('服务器');
-            socket.emit('message','服务器');
+            //socket.emit('message','服务器');
         });
         socket.on('disconnect',function(){
             console.log('断开连接');
@@ -50,7 +54,19 @@
             var msg = document.querySelector('#inputMsg').value;
             //向服务器发送类型为message的消息
             socket.emit('message',msg);
+            //清空文本框的内容
             document.querySelector('#inputMsg').value = '';
+        }
+
+        window.join = function(room){
+            //向后台发射join事件， room是参数
+            socket.emit('join',room);
+            document.querySelector('#currentRoom').innerHTML = room;
+        }
+        //离开房间
+        window.leave = function(room){
+            socket.emit('leave',room);//向服务器端发射离开的房间的消息
+            document.querySelector('#currentRoom').innerHTML = '大厅';
         }
     }
 
